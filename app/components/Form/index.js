@@ -11,7 +11,7 @@ const Form = styled.form`
   margin: 1em auto;
   padding: 1em;
   text-align: center;
-  width: 360px;
+  width: 350px;
 `;
 
 export default Form;

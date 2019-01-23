@@ -13,4 +13,8 @@ export default defineMessages({
     id: `${scope}.header`,
     defaultMessage: 'This is the FormPage container!',
   },
+  form: {
+    id: `${scope}.form`,
+    defaultMessage: '* are mandatory',
+  },
 });

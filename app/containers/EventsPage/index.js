@@ -16,14 +16,16 @@ import EventsList from 'components/EventsList';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import H2 from 'components/H2';
+import { makeSelectError, makeSelectLoading } from 'containers/App/selectors';
 import CenteredSection from './CenteredSection';
 import Section from './Section';
 
-import makeSelectEventsPage from './selectors';
+import { makeSelectListEvents } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import { login, logout } from '../App/actions';
+import { saveNewEvent } from './actions';
 
 /* eslint-disable react/prefer-stateless-function */
 export class EventsPage extends React.Component {
@@ -34,6 +36,7 @@ export class EventsPage extends React.Component {
       error,
       events,
     };
+    console.log(events);
     return (
       <article>
         <Helmet>
@@ -53,9 +56,12 @@ export class EventsPage extends React.Component {
             <H2>
               <FormattedMessage {...messages.trymeHeader} />
             </H2>
-            <EventsList {...eventsListProps} />
+            {events ? <EventsList {...eventsListProps} /> : null}
           </Section>
         </div>
+        <button type="button" onClick={this.props.onSaveNewEvent}>
+          SaveEvent
+        </button>
         <button type="button" onClick={this.props.onLogin}>
           Login
         </button>
@@ -69,16 +75,21 @@ export class EventsPage extends React.Component {
 
 EventsPage.propTypes = {
   onLogin: PropTypes.func,
+  onLogout: PropTypes.func,
+  onSaveNewEvent: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
-  eventsPage: makeSelectEventsPage(),
+  events: makeSelectListEvents(),
+  loading: makeSelectLoading(),
+  error: makeSelectError(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     onLogin: () => dispatch(login()),
     onLogout: () => dispatch(logout()),
+    onSaveNewEvent: () => dispatch(saveNewEvent()),
   };
 }
 
@@ -87,8 +98,8 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withReducer = injectReducer({ key: 'eventsPage', reducer });
-const withSaga = injectSaga({ key: 'eventsPage', saga });
+const withReducer = injectReducer({ key: 'events', reducer });
+const withSaga = injectSaga({ key: 'events', saga });
 
 export default compose(
   withReducer,

@@ -1,11 +1,14 @@
 import { createSelector } from 'reselect';
 import { initialState } from './reducer';
+// import { initialState } from './reducer';
 
 /**
  * Direct selector to the eventsPage state domain
  */
 
-const selectEventsPageDomain = state => state.get('eventsPage', initialState);
+const selectListEvents = state => state.get('events', initialState);
+
+const selectNewEvent = state => state.get('events', initialState);
 
 /**
  * Other specific selectors
@@ -14,9 +17,10 @@ const selectEventsPageDomain = state => state.get('eventsPage', initialState);
 /**
  * Default selector used by EventsPage
  */
+const makeSelectListEvents = () =>
+  createSelector(selectListEvents, substate => substate.list);
 
-const makeSelectEventsPage = () =>
-  createSelector(selectEventsPageDomain, substate => substate.toJS());
+const makeSelectNewEvent = () =>
+  createSelector(selectNewEvent, substate => substate.new);
 
-export default makeSelectEventsPage;
-export { selectEventsPageDomain };
+export { selectNewEvent, makeSelectNewEvent, makeSelectListEvents };

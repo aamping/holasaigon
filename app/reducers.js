@@ -12,6 +12,7 @@ import languageProviderReducer from 'containers/LanguageProvider/reducer';
  * Merges the main reducer with the router state and dynamically injected reducers
  */
 export default function createReducer(injectedReducers = {}) {
+  console.log(injectedReducers);
   const rootReducer = combineReducers({
     language: languageProviderReducer,
     ...injectedReducers,

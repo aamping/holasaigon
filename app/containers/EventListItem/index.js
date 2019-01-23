@@ -21,9 +21,10 @@ export class EventListItem extends React.PureComponent {
   render() {
     const { item } = this.props;
     let nameprefix = '';
+    console.log(item, this.props.currentUser);
 
-    if (item.owner.login !== this.props.currentUser) {
-      nameprefix = `${item.owner.login}/`;
+    if (item.creator !== this.props.currentUser) {
+      nameprefix = `${item.creator}/`;
     }
 
     const content = (

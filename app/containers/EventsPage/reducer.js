@@ -5,14 +5,37 @@
  */
 
 import { fromJS } from 'immutable';
-import { DEFAULT_ACTION } from './constants';
+import { types } from './actions';
 
-export const initialState = fromJS({});
+export const initialState = fromJS({
+  list: [],
+  new: {
+    name: '',
+    date: '',
+    place: '',
+    description: '',
+  },
+  useFirestore: false,
+});
 
 function eventsPageReducer(state = initialState, action) {
+  console.log(state, action);
   switch (action.type) {
-    case DEFAULT_ACTION:
-      return state;
+    case types.EVENTS.SYNC:
+      return {
+        ...state,
+        list: action.events,
+      };
+    case types.EVENTS.NEW.CHANGE:
+      return {
+        ...state,
+        new: { ...state.new, [action.event.key]: action.event.value },
+      };
+    case types.EVENTS.SET_FIRESTORE:
+      return {
+        ...state,
+        useFirestore: action.useFirestore,
+      };
     default:
       return state;
   }
